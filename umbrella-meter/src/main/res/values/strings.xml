@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Umbrella Meter</string>
+
+    <string name="temperature">Temperature</string>
+    <string name="feels_like">Feels like</string>
+    <string name="wind_speed">Wind speed</string>
+    <string name="precipitation">Precipitation</string>
+    <string name="cloud_cover">Cloud Cover</string>
+    <string name="humidity">Humidity</string>
+    <string name="pressure">Pressure</string>
+    <string name="uv_index">UV Index</string>
+    <string name="weather_visibility">Visibility</string>
+    <string name="dew_point">Dew Point</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="sunset">Sunrise</string>
+
+    <string name="expandable_header_toggle_message">Toggle expanded state</string>
+
+    <string name="change_location">Change Location</string>
+    <string name="use_current_location">Use Current Location</string>
+
+    <string name="this_week">This week</string>
+    <string name="forecast_7days">7-day forecast</string>
+    <string name="details">Details</string>
+    <string name="weather_now">Weather now</string>
+
+</resources>
