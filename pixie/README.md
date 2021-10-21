@@ -154,7 +154,7 @@ The Application should have a [ProfileScreen](src/main/java/fhs/mmt/nma/pixie/ui
 - Launching the Application should always open the Timeline Screen
 - The Profile Screen needs to accept a userId as navigation argument
 
-_Note:_ For this task its only necessary to navigate to anotther Screen. The Screen Content is implemented within Task 7
+_Note:_ For this task its only necessary to navigate to another Screen. The Screen Content is implemented within Task 7
 
 **Checklist**
 - [ ] Colors, sizes and spacings follow [Style Guide](Styleguide.pdf)
