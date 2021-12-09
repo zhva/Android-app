@@ -19,19 +19,16 @@ Further Instructions can be found in the modules README files
 
 ## Grading
 
-Every module in this Repository contains various Tasks worth Points.
+The Pixie module in this Repository contains various Tasks worth Points.
 
-* [Module 1](pixie/README.md) (Total **30** Points) *Required*
-    * Main focus lies on designing UI with Jetpack Compose
-* [Module 2](umbrella-meter/README.md) (Total **30** Points) *Required*
-    * Main focus lies on Architecture and Data Management
-* [Module 3](ghibli-companion/README.md) (Total **40** Points)
-    * Main focus lies on applying learnt knowledge
+* There are 9 *Required* Tasks (Total **30** Points)
+* There are 4 *Optional* Tasks (Total **30** Points)
+* There are 3 *Optional* Bonus Point Tasks (Total **10** Points)
 
-Total Points Available: **100**
+Total Points Available (including Bonus Points): **70**
 
-* **80 and more**: Awesome Job! 1
-* **70 - 79**: 2
-* **60 - 69**: 3
-* **50 - 59**: 4
-* **Less than 50**: Not passed
+* **54 and more**: Awesome Job! 1
+* **48 - 54**: 2
+* **42 - 47**: 3
+* **30 - 42**: 4
+* **Less than 30**: Not passed
