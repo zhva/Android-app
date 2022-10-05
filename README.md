@@ -1,11 +1,11 @@
-# Native Mobile Applications WS 21/22
+# Native Mobile Applications WS 22/23
 
 This is the base repository for Native Mobile Applications.
 
 Every Student has to [Fork](https://docs.gitlab.com/ee/user/project/repository/forking_workflow.html) this repository.
 Please make sure that the visibility of your Fork is private and that you add me as a Collaborator to your Project.
 
-The Project needs to be finished by **Sunday 23 January 2022 23:59:59**.
+The Project needs to be finished by **Sunday 29 January 2023 23:59:59**.
 Everything in your forks *main* branch is considered for the Grading process.
 
 ## Getting Started
