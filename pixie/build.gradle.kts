@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = 33
 
     defaultConfig {
         applicationId = "fhs.mmt.nma.pixie"
         minSdk = 21
-        targetSdk = 31
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0.0"
 
@@ -36,7 +36,6 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
-        useIR = true
     }
 
     buildFeatures {
@@ -44,8 +43,9 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.orNull
+        kotlinCompilerExtensionVersion = "1.3.1"
     }
+    namespace = "fhs.mmt.nma.pixie"
 
 }
 
@@ -66,5 +66,4 @@ dependencies {
     implementation(libs.accompanist.pager.indicators)
 
     implementation(libs.coil.compose)
-
 }

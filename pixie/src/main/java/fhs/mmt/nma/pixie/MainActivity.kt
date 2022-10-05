@@ -3,8 +3,11 @@ package fhs.mmt.nma.pixie
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material.ripple.rememberRipple
+import coil.compose.rememberImagePainter
 import fhs.mmt.nma.pixie.ui.home.HomeScreen
 import fhs.mmt.nma.pixie.ui.theme.PixieTheme
 

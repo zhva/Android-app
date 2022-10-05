@@ -10,8 +10,8 @@ import fhs.mmt.nma.pixie.samples.providers.PostSampleProvider
 import fhs.mmt.nma.pixie.ui.theme.PixieTheme
 
 @Composable
-fun PostCard(post: Post) {
-   Text(text = "TODO $post")
+fun PostCard(post: Post, onClick: () -> Unit = {}) {
+    Text("Hello World")
 }
 
 @Preview
@@ -22,7 +22,6 @@ fun PostPreview(@PreviewParameter(PostSampleProvider::class) post: Post) {
         PostCard(post = post)
     }
 }
-
 
 
 

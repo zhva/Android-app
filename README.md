@@ -20,15 +20,4 @@ Further Instructions can be found in the modules README files
 ## Grading
 
 The Pixie module in this Repository contains various Tasks worth Points.
-
-* There are 9 *Required* Tasks (Total **30** Points)
-* There are 4 *Optional* Tasks (Total **30** Points)
-* There are 3 *Optional* Bonus Point Tasks (Total **10** Points)
-
-Total Points Available (including Bonus Points): **70**
-
-* **54 and more**: Awesome Job! 1
-* **48 - 54**: 2
-* **42 - 47**: 3
-* **30 - 42**: 4
-* **Less than 30**: Not passed
+The full grading Scala can be found [here](pixie/README.md#grading)

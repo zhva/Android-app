@@ -13,6 +13,7 @@ fun HomeScreen(posts: List<Post> = AllPosts) {
     PostCard(post = posts.first())
 }
 
+
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
@@ -21,4 +22,6 @@ fun HomePreview() {
         HomeScreen()
     }
 }
+
+
 

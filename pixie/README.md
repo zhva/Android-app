@@ -6,10 +6,10 @@ The Goal of this Project is to Design a given UI Specification using Jetpack Com
 
 - [ ] All code has to be written in Kotlin
     - If you are using external dependencies it is fine if these are written in Java
-- [ ] Only Jetpack Compose 
+- [ ] UI is written completely with Jetpack Compose 
     - [ ] Single Activity using [ComponentActivity](https://developer.android.com/reference/androidx/activity/ComponentActivity)
     - [ ] Navigation is using [compose-navigation](https://developer.android.com/jetpack/compose/navigation)
-- [ ] Hardcoded Strings are localized
+- [ ] Hardcoded Strings are localized using string resources
 - [ ] Icons are vectors using [material-icons](https://developer.android.com/reference/kotlin/androidx/compose/material/icons/package-summary)
 - [ ] UI Follows the [Style Guide](Styleguide.pdf)
 
@@ -19,9 +19,16 @@ The Data Structure for this Project is given. All Domain Models can be found in 
 
 There are ready to use Fake Data and Sample Data Providers available in the [samples](src/main/java/fhs/mmt/nma/pixie/samples/) package
 
-## Required Tasks
+## Grading
 
-All Tasks are worth a total of **30** Points
+All Tasks are worth a total of **42** Points
+
+Scala:
+
+- *39*: 1
+- *32*: 2
+- *27*: 3
+- *21*: 4
 
 ### Task 1: Post Card - *4P*
 
@@ -75,9 +82,9 @@ Adjust the existing [HomeScreen](src/main/java/fhs/mmt/nma/pixie/ui/home/HomeScr
 
 - The Screen should contain a _scrollable_ List of all Posts.
 - On Top of the Screen there should be a [Toolbar](https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary#TopAppBar(kotlin.Function0,androidx.compose.ui.Modifier,kotlin.Function0,kotlin.Function1,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.Color,androidx.compose.ui.unit.Dp))
-    - When scrolling throuth the Post List, the Toolbar should **not** scroll and remain on top 
+    - When scrolling through the Post List, the Toolbar should **not** scroll and remain on top 
 - On the Bottom of the Screen there should be a [BottomNavigation](https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary#BottomNavigation(androidx.compose.ui.Modifier,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.Color,androidx.compose.ui.unit.Dp,kotlin.Function1))
-    - When scrolling throuth the Post List, the Bottom Navigation should **not** scroll and remain on the Bottom of the Screen
+    - When scrolling through the Post List, the Bottom Navigation should **not** scroll and remain on the Bottom of the Screen
     - Home is marked as active  
 
 **Checklist**
@@ -167,9 +174,6 @@ The User Profile Screen should contain all Elements as defined in the [Style Gui
     - [ ] Scrolling is Implemented using a [LazyList](https://developer.android.com/jetpack/compose/lists#lazy)
 - [ ] Gallery Items width is calculated dynamically with given available screensize
 
-## Optional Tasks
-
-The Following Tasks are optional and not required for passing the course. The Additional Tasks are worth a total of **20** Points
 
 ### Task 10: ViewModel on Home - *5P*
 
@@ -184,6 +188,10 @@ The Home Screen should use a ViewModel and expose all Posts as member property
 - [ ] HomeViewModel defines a property for all Available Posts
     - [ ] the Composable reads the property from the given ViewModel
 
+**Bonus Points**
+- HomeScreen uses state hoisting
+  - The hoisted HomeScreen has no references to the ViewModel directly
+  - There are Previews available for all possible (hoisted) UI States
 
 ### Task 11: ViewModel on Profile - *5P*
 
@@ -191,7 +199,7 @@ The Profile Screen should use a ViewModel and expose data using a remodeled UI D
 
 - The required data should be put into a new `data class` 
 - The userId needs to be read inside the viewmodel
-    - This is archivable by accepting a `SavedStateHandle` as constructor argument in the ViewModel and by scoping the viewmodel to the backstack entry
+    - This is achievable by accepting a `SavedStateHandle` as constructor argument in the ViewModel and by scoping the viewmodel to the backstack entry
 
 **Checklist**
 - [ ] ProfileViewModel extends `androidx.lifecycle.ViewModel`
@@ -201,66 +209,7 @@ The Profile Screen should use a ViewModel and expose data using a remodeled UI D
     - [ ] the Composable reads the property from the given ViewModel
     - [ ] the data is captured in a seperate `data class` 
 
-### Task 12: MVI on Home - *10P* + *3P*
-
-The Home Screen should use a MVI Architecture defining the UiState, SideEffects and Events
-
-- The exposed UiState from the ViewModel should be a `androidx.compose.runtime.State`
-    - Inside the ViewModel it can be a `androidx.compose.runtime.MutableState`
-- Instead of directly defining Click Action logic, Events should be send to the ViewModel
-    - The Events in the ViewModel should be a `MutableSharedFlow` and consumed only by the viewmodel
-- The ViewModel exposes effects that the composable should react to
-    - One of these effects is the navigation to another screen
-    - The Effects should be of type `Flow<Effect>`
-
-
-**Checklist**
-- [ ] HomeViewModel has a `State` property containing the UiState
-- [ ] HomeViewModel has a `Flow<Effect>` property publishing Effects to the Composable
-    - [ ] The Composable consumes them using `LaunchedEffect`
-- [ ] HomeViewModel offers a function to send Events
-    - [ ] every Event is added to the private `MutableSharedFlow`
-- [ ] HomeScreen sends an Event to the ViewModel when a user is Clicked
-    - [ ] The Event takes enough information to identify wich user was clicked
-- [ ] HomeViewModel Subscribes to Events and handles every event
-- [ ] HomeViewModel sends a Effect for navigation when a User Clicked Event is send
-
-
 **Bonus Points**
-- HomeScreen uses state hoisting 
-    - The hoisted HomeScreen has no references to the ViewModel directly 
-
-### Task 12: MVI on Profile - *10P*  + *5P*
-
-The Profile Screen should use a MVI Architecture defining the UiState, SideEffects and Events
-
-- The UiState should be capable of modeling 3 states
-    - Loading State
-    - Content State
-    - Error State
-- If the userId cannot be extracted from the given SavedStateHandle the UiState should be Error
-- If there is no User for given userId the UiState should be Error
-- The exposed UiState from the ViewModel should be a `androidx.compose.runtime.State`
-    - Inside the ViewModel it can be a `androidx.compose.runtime.MutableState`
-- Instead of directly defining Click Action logic, Events should be send to the ViewModel
-    - The Events in the ViewModel should be a `MutableSharedFlow` and consumed only by the viewmodel
-- The ViewModel exposes effects that the composable should react to
-    - The Effects should be of type `Flow<Effect>`
-
-
-**Checklist**
-- [ ] ProfileViewModel has a `State` property containing the UiState
-- [ ] The Ui State is modeled using a `sealed class`
-- [ ] ProfileViewModel has a `Flow<Effect>` property publishing Effects to the Composable
-    - [ ] The Composable consumes them using `LaunchedEffect`
-- [ ] ProfileViewModel offers a function to send Events
-    - [ ] every Event is added to the private `MutableSharedFlow`
-- [ ] HomeScreen sends an Event to the ViewModel when a user is Clicked
-    - [ ] The Event takes enough information to identify wich user was clicked
-- [ ] ProfileViewModel Subscribes to Events and handles every event
-- [ ] ProfileViewModel sends a Effect for navigation when a User Clicked Event is send
-
-**Bonus Points**
-- ProfileScreen uses state hoisting 
-    - The hoisted ProfileScreen(s) have no references to the ViewModel directly 
-    - There are Previews available for all possible (hoisted) UI States
+- ProfileScreen uses state hoisting
+  - The hoisted ProfileScreen(s) have no references to the ViewModel directly
+  - There are Previews available for all possible (hoisted) UI States
