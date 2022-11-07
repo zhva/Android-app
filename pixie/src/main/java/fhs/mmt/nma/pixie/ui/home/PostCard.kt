@@ -58,13 +58,11 @@ fun PostCard(post: Post, profileName: String = "John Doe", location: String = ""
                     .height(48.dp),
                 verticalArrangement = Arrangement.SpaceEvenly) {
                 Text("$profileName ",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold
+                    style = MaterialTheme.typography.h2
                     )
                 if(location !== "") {
                     Text("$location",
-                        fontSize = 12.sp
-                    )
+                    style = MaterialTheme.typography.body2)
                 }
             }
         }
@@ -102,7 +100,7 @@ fun PostCard(post: Post, profileName: String = "John Doe", location: String = ""
                     )
             }
             Text("42",
-                fontSize = 12.sp,
+                style = MaterialTheme.typography.caption,
                 modifier = Modifier
                     .padding(start = 8.dp)
             )
@@ -125,7 +123,7 @@ fun PostCard(post: Post, profileName: String = "John Doe", location: String = ""
                 }
 
             Text("0",
-                fontSize = 12.sp,
+                style = MaterialTheme.typography.caption,
                 modifier = Modifier
                     .padding(start = 8.dp)
             )

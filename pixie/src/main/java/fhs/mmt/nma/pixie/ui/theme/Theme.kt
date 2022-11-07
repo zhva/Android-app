@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 fun PixieTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
     MaterialTheme(
         content = content,
-        colors = if (darkTheme) PixieDarkColors else PixieLightColors
-
+        colors = if (darkTheme) PixieDarkColors else PixieLightColors,
+        typography = PixieTypography
     )
 }
