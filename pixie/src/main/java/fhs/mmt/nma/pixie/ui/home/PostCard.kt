@@ -3,7 +3,6 @@ package fhs.mmt.nma.pixie.ui.home
 import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -17,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,7 +31,6 @@ import fhs.mmt.nma.pixie.R
 fun PostCard(post: Post, profileName: String = "John Doe", location: String = "", onClick: () -> Unit = {}) {
     Column(modifier = Modifier
         .fillMaxWidth()
-        .background(color = colorResource(id = R.color.background))
     ){
 
         Row(
@@ -44,8 +41,8 @@ fun PostCard(post: Post, profileName: String = "John Doe", location: String = ""
                 .size(48.dp)
                 .border(
                     width = 1.5.dp,
-                    color = colorResource(id = R.color.primary),
-                    shape = CircleShape
+                    shape = CircleShape,
+                    color = MaterialTheme.colors.primary
                 )
             ){
                 Image(
@@ -62,12 +59,12 @@ fun PostCard(post: Post, profileName: String = "John Doe", location: String = ""
                 verticalArrangement = Arrangement.SpaceEvenly) {
                 Text("$profileName ",
                     fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = colorResource(id = R.color.onBackground))
+                    fontWeight = FontWeight.SemiBold
+                    )
                 if(location !== "") {
                     Text("$location",
-                        fontSize = 12.sp,
-                        color = colorResource(id = R.color.onBackground))
+                        fontSize = 12.sp
+                    )
                 }
             }
         }
@@ -96,7 +93,7 @@ fun PostCard(post: Post, profileName: String = "John Doe", location: String = ""
                     .padding(all = 0.dp),
                 contentPadding = PaddingValues(0.dp),
                 colors = ButtonDefaults.textButtonColors(
-                    contentColor = colorResource(id = R.color.onBackground)
+                    contentColor = MaterialTheme.colors.onBackground
                 )
             ){
                     Icon(
@@ -107,8 +104,7 @@ fun PostCard(post: Post, profileName: String = "John Doe", location: String = ""
             Text("42",
                 fontSize = 12.sp,
                 modifier = Modifier
-                    .padding(start = 8.dp),
-                color = colorResource(id = R.color.onBackground)
+                    .padding(start = 8.dp)
             )
 
             Spacer(Modifier.weight(1f))
@@ -119,7 +115,7 @@ fun PostCard(post: Post, profileName: String = "John Doe", location: String = ""
                     .padding(all = 0.dp),
                 contentPadding = PaddingValues(0.dp),
                 colors = ButtonDefaults.textButtonColors(
-                    contentColor = colorResource(id = R.color.onBackground)
+                    contentColor = MaterialTheme.colors.onBackground
                 )
             ){
                     Icon(
@@ -131,8 +127,7 @@ fun PostCard(post: Post, profileName: String = "John Doe", location: String = ""
             Text("0",
                 fontSize = 12.sp,
                 modifier = Modifier
-                    .padding(start = 8.dp),
-                color = colorResource(id = R.color.onBackground)
+                    .padding(start = 8.dp)
             )
         }
     }
