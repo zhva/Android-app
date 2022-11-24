@@ -9,6 +9,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.ripple.rememberRipple
 import coil.compose.rememberImagePainter
 import fhs.mmt.nma.pixie.ui.home.HomeScreen
+import fhs.mmt.nma.pixie.ui.home.PostCard
 import fhs.mmt.nma.pixie.ui.theme.PixieTheme
 
 class MainActivity : ComponentActivity() {

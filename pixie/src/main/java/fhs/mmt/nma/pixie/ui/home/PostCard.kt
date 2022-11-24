@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme
@@ -19,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -26,15 +28,15 @@ import fhs.mmt.nma.pixie.data.Post
 import fhs.mmt.nma.pixie.samples.providers.PostSampleProvider
 import fhs.mmt.nma.pixie.ui.theme.PixieTheme
 import fhs.mmt.nma.pixie.R
+import fhs.mmt.nma.pixie.samples.FakePosts
 
 @Composable
-fun PostCard(post: Post, profileName: String = "John Doe", location: String = "", onClick: () -> Unit = {}) {
+fun PostCard(post: Post, onClick: () -> Unit = {}) {
     Card {
         Column(modifier = Modifier
             .fillMaxWidth()
             .background(MaterialTheme.colors.surface)
         ){
-
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.padding(start = 8.dp, top = 8.dp, bottom = 8.dp)
@@ -59,11 +61,11 @@ fun PostCard(post: Post, profileName: String = "John Doe", location: String = ""
                         .fillMaxWidth()
                         .height(48.dp),
                     verticalArrangement = Arrangement.SpaceEvenly) {
-                    Text("$profileName ",
+                    Text(post.author.name.toString(),
                         style = MaterialTheme.typography.h2
                         )
-                    if(location !== "") {
-                        Text("$location",
+                    if(post.author.location !== "") {
+                        Text(post.author.location.toString(),
                         style = MaterialTheme.typography.body2)
                     }
                 }
@@ -101,7 +103,7 @@ fun PostCard(post: Post, profileName: String = "John Doe", location: String = ""
                             contentDescription = null
                         )
                 }
-                Text("42",
+                Text(post.likes.toString(),
                     style = MaterialTheme.typography.caption,
                     modifier = Modifier
                         .padding(start = 8.dp)
@@ -124,22 +126,53 @@ fun PostCard(post: Post, profileName: String = "John Doe", location: String = ""
                         )
                     }
 
-                Text("0",
+                Text(post.comments.size.toString(),
                     style = MaterialTheme.typography.caption,
                     modifier = Modifier
                         .padding(start = 8.dp)
                 )
             }
+            LazyColumn(modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 12.dp, end = 12.dp)) {
+                if(post.comments.isNotEmpty()) {
+                    item {
+                        ShowComment(post.comments[0].author.name.toString(), post.comments[0].message.toString())
+                    }
+                    item {
+                        ShowComment(post.comments[1].author.name.toString(), post.comments[1].message.toString())
+                    }
+                }
+                if(post.comments.size > 2) {
+                    item {
+                        TextButton(onClick = { /*TODO*/ }) { // is it really a Button or a TextButton
+                            Text(text = "Show all ${post.comments.size} Comments")
+                        }
+                    }
+                }
+            }
         }
     }
 }
-
+@Composable
+fun ShowComment(author: String, message: String) {
+    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text(author,
+            style = MaterialTheme.typography.h2,
+            modifier = Modifier.padding(bottom = 8.dp))
+        Text(message,
+            style = MaterialTheme.typography.body1,
+            modifier = Modifier.padding(bottom = 8.dp),
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis)
+    }
+}
 @Preview(showBackground = true)
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun PostPreview(@PreviewParameter(PostSampleProvider::class) post: Post) {
     PixieTheme {
-        PostCard(post = post, profileName="Harry Potter", location = "London")
+        PostCard(post = post)
     }
 }
 
