@@ -21,7 +21,7 @@ val PixieDarkColors = darkColors(
     background = Grey900,
     onBackground = White,
     surface = Grey800,
-    onSurface = Black
+    onSurface = White
 )
 val PixieLightColors = lightColors(
     primary = Purple500,
