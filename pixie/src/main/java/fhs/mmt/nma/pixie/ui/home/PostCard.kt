@@ -58,7 +58,7 @@ fun PostCard(post: Post, onClick: () -> Unit = {}) {
                     Text(post.author.name.toString(),
                         style = MaterialTheme.typography.h2
                         )
-                    if(post.author.location !== "") {
+                    if(post.author.location !== null) {
                         Text(post.author.location.toString(),
                         style = MaterialTheme.typography.body2)
                     }
