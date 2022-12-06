@@ -31,13 +31,10 @@ fun HomeScreen(posts: List<Post> = AllPosts) {
         bottomBar = {  FooterToolbar() }) { innerPadding ->
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
+                contentPadding = PaddingValues(8.dp),
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(
-                        top = innerPadding.calculateTopPadding(),
-                        bottom = innerPadding.calculateBottomPadding(),
-                        start = 8.dp,
-                        end = 8.dp)
+                    .padding(innerPadding)
                     .background(MaterialTheme.colors.background)
             ) {
                 items(posts) {
