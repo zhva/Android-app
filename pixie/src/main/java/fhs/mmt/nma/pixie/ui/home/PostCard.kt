@@ -129,10 +129,10 @@ fun PostCard(post: Post, onClick: () -> Unit = {}) {
             Column(modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 12.dp, end = 12.dp)) {
-                if(post.comments.isNotEmpty()) {
-                    ShowComment(post.comments[0].author.name.toString(), post.comments[0].message.toString())
-                    ShowComment(post.comments[1].author.name.toString(), post.comments[1].message.toString())
-                    }
+                val comments = post.comments.takeLast(2)
+                comments.forEach {
+                    ShowComment(author = it.author.name, message = it.message)
+                }
                 if(post.comments.size > 2) {
                     TextButton(onClick = { /*TODO*/ }) { // is it really a Button or a TextButton
                         Text(text = "Show all ${post.comments.size} Comments")
