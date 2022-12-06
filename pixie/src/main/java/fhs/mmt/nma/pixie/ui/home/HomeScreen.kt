@@ -1,6 +1,7 @@
 package fhs.mmt.nma.pixie.ui.home
 
 import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -28,17 +29,22 @@ fun HomeScreen(posts: List<Post> = AllPosts) {
     Scaffold(
         topBar = { Header() },
         bottomBar = {  FooterToolbar() }) { innerPadding ->
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        ) {
-            items(posts) {
-                PostCard(post = it)
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(
+                        top = innerPadding.calculateTopPadding(),
+                        bottom = innerPadding.calculateBottomPadding(),
+                        start = 8.dp,
+                        end = 8.dp)
+                    .background(MaterialTheme.colors.background)
+            ) {
+                items(posts) {
+                    PostCard(post = it)
 
+                }
             }
-        }
     }
 }
 @Composable
@@ -53,8 +59,7 @@ fun Header(
         modifier = Modifier
             .height(64.dp)
             .shadow(4.dp, RectangleShape, true, MaterialTheme.colors.onSurface),
-        backgroundColor = MaterialTheme.colors.surface,
-        contentColor = MaterialTheme.colors.onSurface)
+        backgroundColor = MaterialTheme.colors.surface)
 }
 
 @Composable

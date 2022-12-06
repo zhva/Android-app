@@ -15,6 +15,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
@@ -29,7 +31,9 @@ import fhs.mmt.nma.pixie.ui.theme.PixieTheme
 
 @Composable
 fun PostCard(post: Post, onClick: () -> Unit = {}) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+    Card(modifier = Modifier
+            .fillMaxWidth()
+            .shadow(4.dp, RectangleShape, true, MaterialTheme.colors.onBackground),) {
         Column(){
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
