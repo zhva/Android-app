@@ -1,6 +1,5 @@
 package fhs.mmt.nma.pixie.ui.home
 
-import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -9,9 +8,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Comment
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,19 +22,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import fhs.mmt.nma.pixie.R
 import fhs.mmt.nma.pixie.data.Post
 import fhs.mmt.nma.pixie.samples.providers.PostSampleProvider
 import fhs.mmt.nma.pixie.ui.theme.PixieTheme
-import fhs.mmt.nma.pixie.R
-import fhs.mmt.nma.pixie.samples.FakePosts
 
 @Composable
 fun PostCard(post: Post, onClick: () -> Unit = {}) {
-    Card {
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colors.surface)
-        ){
+    Card(modifier = Modifier.fillMaxWidth()) {
+        Column(){
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.padding(start = 8.dp, top = 8.dp, bottom = 8.dp)
@@ -100,7 +94,7 @@ fun PostCard(post: Post, onClick: () -> Unit = {}) {
                 ){
                         Icon(
                             Icons.Outlined.FavoriteBorder,
-                            contentDescription = null
+                            contentDescription = "Favorite"
                         )
                 }
                 Text(post.likes.toString(),
@@ -122,7 +116,7 @@ fun PostCard(post: Post, onClick: () -> Unit = {}) {
                 ){
                         Icon(
                             Icons.Filled.Comment,
-                            contentDescription = null
+                            contentDescription = "Comment"
                         )
                     }
 
@@ -132,22 +126,17 @@ fun PostCard(post: Post, onClick: () -> Unit = {}) {
                         .padding(start = 8.dp)
                 )
             }
-            LazyColumn(modifier = Modifier
+            Column(modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 12.dp, end = 12.dp)) {
                 if(post.comments.isNotEmpty()) {
-                    item {
-                        ShowComment(post.comments[0].author.name.toString(), post.comments[0].message.toString())
+                    ShowComment(post.comments[0].author.name.toString(), post.comments[0].message.toString())
+                    ShowComment(post.comments[1].author.name.toString(), post.comments[1].message.toString())
                     }
-                    item {
-                        ShowComment(post.comments[1].author.name.toString(), post.comments[1].message.toString())
-                    }
-                }
                 if(post.comments.size > 2) {
-                    item {
-                        TextButton(onClick = { /*TODO*/ }) { // is it really a Button or a TextButton
-                            Text(text = "Show all ${post.comments.size} Comments")
-                        }
+                    TextButton(onClick = { /*TODO*/ }) { // is it really a Button or a TextButton
+                        Text(text = "Show all ${post.comments.size} Comments")
+
                     }
                 }
             }
