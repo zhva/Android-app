@@ -10,6 +10,7 @@ val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF80CBC4)
 val White = Color(0xFFFFFFFF)
 val Black = Color(0xFF000000)
+val Grey = Color(0xFFECECEC)
 val Grey800 = Color(0xFF424242)
 val Grey900 = Color(0xFF121212)
 
@@ -21,7 +22,8 @@ val PixieDarkColors = darkColors(
     background = Grey900,
     onBackground = White,
     surface = Grey800,
-    onSurface = White
+    onSurface = White,
+    onError = Grey
 )
 val PixieLightColors = lightColors(
     primary = Purple500,
@@ -31,5 +33,6 @@ val PixieLightColors = lightColors(
     background = White,
     onBackground = Black,
     surface = White,
-    onSurface = Black
+    onSurface = Black,
+    onError = Grey
 )

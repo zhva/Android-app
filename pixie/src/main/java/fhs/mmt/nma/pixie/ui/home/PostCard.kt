@@ -5,25 +5,32 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Comment
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.placeholder
+import com.google.accompanist.placeholder.shimmer
 import fhs.mmt.nma.pixie.R
 import fhs.mmt.nma.pixie.data.Post
 import fhs.mmt.nma.pixie.samples.providers.PostSampleProvider
@@ -32,8 +39,8 @@ import fhs.mmt.nma.pixie.ui.theme.PixieTheme
 @Composable
 fun PostCard(post: Post, onClick: () -> Unit = {}) {
     Card(modifier = Modifier
-            .fillMaxWidth()
-            .shadow(4.dp, RectangleShape, true, MaterialTheme.colors.onBackground),) {
+        .fillMaxWidth()
+        .shadow(4.dp, RectangleShape, true, MaterialTheme.colors.onBackground),) {
         Column(){
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -59,11 +66,11 @@ fun PostCard(post: Post, onClick: () -> Unit = {}) {
                         .fillMaxWidth()
                         .height(48.dp),
                     verticalArrangement = Arrangement.SpaceEvenly) {
-                    Text(post.author.name.toString(),
+                    Text(post.author.name,
                         style = MaterialTheme.typography.h2
                         )
                     if(post.author.location !== null) {
-                        Text(post.author.location.toString(),
+                        Text(post.author.location,
                         style = MaterialTheme.typography.body2)
                     }
                 }
@@ -73,13 +80,7 @@ fun PostCard(post: Post, onClick: () -> Unit = {}) {
                     .height(LocalConfiguration.current.screenWidthDp.dp / 4F * 3F)
                     .fillMaxWidth()
             ) {
-                Image(
-                    painterResource(id = R.drawable.redpanda),
-                    contentDescription = "",
-                    contentScale = ContentScale.FillBounds,
-                    modifier = Modifier
-                        .fillMaxSize()
-                )
+                PostImageLoader(imgUrl = post.photos[0].url)
             }
             Row(
                 modifier = Modifier
@@ -160,6 +161,45 @@ fun ShowComment(author: String, message: String) {
             overflow = TextOverflow.Ellipsis)
     }
 }
+@Composable
+fun PostImageLoader(imgUrl: String) {
+    val painter = rememberAsyncImagePainter(
+        model = ImageRequest
+            .Builder(LocalContext.current)
+            .data(imgUrl)
+            .crossfade(true)
+            .build()
+    )
+    if(painter.state is AsyncImagePainter.State.Error) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colors.onError)) {
+            Icon(
+                Icons.Filled.NoPhotography,
+                contentDescription = "No image was loaded",
+                modifier = Modifier
+                    .size(24.dp)
+                    .align(Alignment.Center)
+            )
+        }
+    }
+    Image(
+        painter = painter,
+        contentDescription = null,
+        modifier = Modifier
+            .fillMaxSize()
+            .placeholder(
+                visible = painter.state is AsyncImagePainter.State.Loading,
+                color = MaterialTheme.colors.onError,
+                highlight = PlaceholderHighlight.shimmer(
+                    highlightColor = Color.White
+                )
+            ),
+        contentScale = ContentScale.Crop
+    )
+}
+
 @Preview(showBackground = true)
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable

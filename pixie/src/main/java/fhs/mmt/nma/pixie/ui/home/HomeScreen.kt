@@ -24,6 +24,7 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.TopAppBar
 
+
 @Composable
 fun HomeScreen(posts: List<Post> = AllPosts) {
     Scaffold(
