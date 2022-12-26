@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -97,6 +98,7 @@ fun PostCard(post: Post, onClick: () -> Unit = {}) {
                         PostImageLoader(imgUrl = post.photos[page].url)
                     }
                 }
+                PageIndicator(post.photos.size, pagerState.currentPage)
                 if(post.photos.size > 1) {
                     Column(
                         verticalArrangement = Arrangement.Bottom,
@@ -112,6 +114,7 @@ fun PostCard(post: Post, onClick: () -> Unit = {}) {
                         )
                     }
                 }
+
             }
             Row(
                 modifier = Modifier
@@ -190,6 +193,22 @@ fun ShowComment(author: String, message: String) {
             modifier = Modifier.padding(bottom = 8.dp),
             maxLines = 2,
             overflow = TextOverflow.Ellipsis)
+    }
+}
+@Composable
+fun PageIndicator(pagesCount: Int, currentPage: Int) {
+    Box (
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentSize(Alignment.TopEnd)
+            .padding(top = 8.dp, end = 16.dp)
+            .clip(RoundedCornerShape(50))) {
+        Text(
+            text = "${currentPage + 1} / $pagesCount",
+            style = MaterialTheme.typography.caption,
+            modifier = Modifier
+                .background(MaterialTheme.colors.secondary)
+                .padding(8.dp))
     }
 }
 @Composable
