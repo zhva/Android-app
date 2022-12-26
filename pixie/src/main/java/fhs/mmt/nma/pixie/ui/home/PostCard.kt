@@ -28,6 +28,10 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
@@ -36,6 +40,7 @@ import fhs.mmt.nma.pixie.data.Post
 import fhs.mmt.nma.pixie.samples.providers.PostSampleProvider
 import fhs.mmt.nma.pixie.ui.theme.PixieTheme
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun PostCard(post: Post, onClick: () -> Unit = {}) {
     Card(modifier = Modifier
@@ -75,12 +80,38 @@ fun PostCard(post: Post, onClick: () -> Unit = {}) {
                     }
                 }
             }
-            Row(
+            val indicatorBottomIndent = if (post.photos.size > 1) 20.dp else 0.dp
+            Box(
                 modifier = Modifier
-                    .height(LocalConfiguration.current.screenWidthDp.dp / 4F * 3F)
+                    .height(LocalConfiguration.current.screenWidthDp.dp / 4F * 3F + indicatorBottomIndent)
                     .fillMaxWidth()
             ) {
-                PostImageLoader(imgUrl = post.photos[0].url)
+                val pagerState = rememberPagerState()
+                HorizontalPager(
+                    post.photos.size,
+                    state = pagerState,
+                    contentPadding = PaddingValues(bottom = indicatorBottomIndent)
+                ) { page ->
+                    Column(
+                        modifier = Modifier.fillMaxSize()) {
+                        PostImageLoader(imgUrl = post.photos[page].url)
+                    }
+                }
+                if(post.photos.size > 1) {
+                    Column(
+                        verticalArrangement = Arrangement.Bottom,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier
+                            .fillMaxSize()
+                    ) {
+                        HorizontalPagerIndicator(
+                            pagerState = pagerState,
+                            activeColor = MaterialTheme.colors.secondary,
+                            indicatorWidth = 10.dp,
+                            indicatorHeight = 10.dp
+                        )
+                    }
+                }
             }
             Row(
                 modifier = Modifier
