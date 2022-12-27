@@ -23,10 +23,11 @@ import androidx.compose.runtime.*
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.TopAppBar
+import androidx.navigation.NavHostController
 
 
 @Composable
-fun HomeScreen(posts: List<Post> = AllPosts) {
+fun HomeScreen(posts: List<Post> = AllPosts, navController: NavHostController) {
     Scaffold(
         topBar = { Header() },
         bottomBar = {  FooterToolbar() }) { innerPadding ->
@@ -39,8 +40,7 @@ fun HomeScreen(posts: List<Post> = AllPosts) {
                     .background(MaterialTheme.colors.background)
             ) {
                 items(posts) {
-                    PostCard(post = it)
-
+                    PostCard(post = it, navController = navController)
                 }
             }
     }
@@ -97,7 +97,7 @@ data class LabeledIcon(val label: String, val icon: ImageVector)
 @Composable
 fun HomePreview() {
     PixieTheme {
-        HomeScreen(FakePosts)
+        //HomeScreen(FakePosts)
     }
 }
 

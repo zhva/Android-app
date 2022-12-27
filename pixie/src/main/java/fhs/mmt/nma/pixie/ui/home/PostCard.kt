@@ -4,9 +4,11 @@ import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -22,12 +24,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -43,41 +49,44 @@ import fhs.mmt.nma.pixie.ui.theme.PixieTheme
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun PostCard(post: Post, onClick: () -> Unit = {}) {
+fun PostCard(post: Post, navController: NavHostController) {
     Card(modifier = Modifier
         .fillMaxWidth()
-        .shadow(4.dp, RectangleShape, true, MaterialTheme.colors.onBackground),) {
-        Column(){
+        .shadow(4.dp, RectangleShape, true, MaterialTheme.colors.onBackground)) {
+        Column() {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.padding(start = 8.dp, top = 8.dp, bottom = 8.dp)
-            ) {
+                modifier = Modifier.padding(start = 8.dp, top = 8.dp, bottom = 8.dp)) {
                 Box(modifier = Modifier
                     .size(48.dp)
+                    .clip(shape = CircleShape)
                     .border(
                         width = 1.5.dp,
                         shape = CircleShape,
                         color = MaterialTheme.colors.primary
                     )
-                ){
+                ) {
                     Image(
-                        painter = painterResource(id = R.drawable.ivan),
+                        painter = rememberAsyncImagePainter(post.author.picture),
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
-                        modifier = Modifier.clip(CircleShape)
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clickable { navController.navigate(route = "user/${post.author.id.toString()}") }
                     )
                 }
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp),
+                Column(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
                     verticalArrangement = Arrangement.SpaceEvenly) {
-                    Text(post.author.name,
-                        style = MaterialTheme.typography.h2
-                        )
-                    if(post.author.location !== null) {
-                        Text(post.author.location,
-                        style = MaterialTheme.typography.body2)
+                    ClickableText(text = AnnotatedString(post.author.name),
+                        onClick = { navController.navigate(route = "user/${post.author.id.toString()}") },
+                        style = MaterialTheme.typography.h2)
+
+                    if(!post.author.location.isNullOrEmpty()) {
+                        Text(post.author.location.toString(),
+                            style = MaterialTheme.typography.body2,
+                            modifier = Modifier.height(20.dp))
                     }
                 }
             }
@@ -255,7 +264,8 @@ fun PostImageLoader(imgUrl: String) {
 @Composable
 fun PostPreview(@PreviewParameter(PostSampleProvider::class) post: Post) {
     PixieTheme {
-        PostCard(post = post)
+        val navController = rememberNavController()
+        PostCard(post = post, navController = navController)
     }
 }
 

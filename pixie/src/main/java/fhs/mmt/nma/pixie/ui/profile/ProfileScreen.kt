@@ -6,12 +6,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import fhs.mmt.nma.pixie.data.Photographer
+import fhs.mmt.nma.pixie.samples.AllUsers
+import fhs.mmt.nma.pixie.samples.FakeUsers
 import fhs.mmt.nma.pixie.samples.providers.UserSampleProvider
 import fhs.mmt.nma.pixie.ui.theme.PixieTheme
 
 @Composable
-fun ProfileScreen(user: Photographer) {
-    Text(text = "TODO: $user")
+fun ProfileScreen(userId: String) {
+    val user = AllUsers.find { it.id == userId.toInt() }
+    if (user != null) {
+        Text(text = "TODO: ${user.name}")
+    }
 }
 
 @Preview
@@ -19,7 +24,7 @@ fun ProfileScreen(user: Photographer) {
 @Composable
 fun ProfilePreview(@PreviewParameter(UserSampleProvider::class) user: Photographer) {
     PixieTheme {
-        ProfileScreen(user = user)
+        ProfileScreen(userId = user.id.toString())
     }
 }
 
