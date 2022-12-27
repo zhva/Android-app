@@ -107,8 +107,10 @@ fun PostCard(post: Post, navController: NavHostController) {
                         PostImageLoader(imgUrl = post.photos[page].url)
                     }
                 }
-                PageIndicator(post.photos.size, pagerState.currentPage)
                 if(post.photos.size > 1) {
+
+                    PageIndicator(post.photos.size, pagerState.currentPage)
+
                     Column(
                         verticalArrangement = Arrangement.Bottom,
                         horizontalAlignment = Alignment.CenterHorizontally,
