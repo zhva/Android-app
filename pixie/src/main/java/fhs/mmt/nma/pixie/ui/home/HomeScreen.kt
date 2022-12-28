@@ -78,7 +78,7 @@ fun FooterToolbar() {
         backgroundColor = MaterialTheme.colors.surface){
         bottomNavigationItemsList.forEach { navItem ->
             BottomNavigationItem(
-                onClick = { selectedItem == navItem.label},
+                onClick = { selectedItem = navItem.label },
                 selected = (selectedItem == navItem.label),
                 icon = {
                     Icon(
