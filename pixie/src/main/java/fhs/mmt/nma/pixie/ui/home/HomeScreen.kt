@@ -24,6 +24,7 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.TopAppBar
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 
 
 @Composable
@@ -97,7 +98,8 @@ data class LabeledIcon(val label: String, val icon: ImageVector)
 @Composable
 fun HomePreview() {
     PixieTheme {
-        //HomeScreen(FakePosts)
+        val navController = rememberNavController()
+        HomeScreen(FakePosts, navController = navController)
     }
 }
 

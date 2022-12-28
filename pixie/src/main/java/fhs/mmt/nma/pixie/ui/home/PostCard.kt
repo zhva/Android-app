@@ -23,7 +23,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,7 +32,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -42,10 +40,11 @@ import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
-import fhs.mmt.nma.pixie.R
 import fhs.mmt.nma.pixie.data.Post
 import fhs.mmt.nma.pixie.samples.providers.PostSampleProvider
 import fhs.mmt.nma.pixie.ui.theme.PixieTheme
+import kotlin.math.ln
+import kotlin.math.pow
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -53,7 +52,7 @@ fun PostCard(post: Post, navController: NavHostController) {
     Card(modifier = Modifier
         .fillMaxWidth()
         .shadow(4.dp, RectangleShape, true, MaterialTheme.colors.onBackground)) {
-        Column() {
+        Column {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.padding(start = 8.dp, top = 8.dp, bottom = 8.dp)) {
@@ -72,7 +71,7 @@ fun PostCard(post: Post, navController: NavHostController) {
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .fillMaxSize()
-                            .clickable { navController.navigate(route = "user/${post.author.id.toString()}") }
+                            .clickable { navController.navigate(route = "user/${post.author.id}") }
                     )
                 }
                 Column(modifier = Modifier
@@ -80,11 +79,11 @@ fun PostCard(post: Post, navController: NavHostController) {
                     .height(48.dp),
                     verticalArrangement = Arrangement.SpaceEvenly) {
                     ClickableText(text = AnnotatedString(post.author.name),
-                        onClick = { navController.navigate(route = "user/${post.author.id.toString()}") },
+                        onClick = { navController.navigate(route = "user/${post.author.id}") },
                         style = MaterialTheme.typography.h2)
 
                     if(!post.author.location.isNullOrEmpty()) {
-                        Text(post.author.location.toString(),
+                        Text(post.author.location,
                             style = MaterialTheme.typography.body2,
                             modifier = Modifier.height(20.dp))
                     }
@@ -104,7 +103,7 @@ fun PostCard(post: Post, navController: NavHostController) {
                 ) { page ->
                     Column(
                         modifier = Modifier.fillMaxSize()) {
-                        PostImageLoader(imgUrl = post.photos[page].url)
+                        ImageLoader(imgUrl = post.photos[page].url)
                     }
                 }
                 if(post.photos.size > 1) {
@@ -147,7 +146,8 @@ fun PostCard(post: Post, navController: NavHostController) {
                             contentDescription = "Favorite"
                         )
                 }
-                Text(post.likes.toString(),
+                Text(
+                    getFormattedNumber(post.likes),
                     style = MaterialTheme.typography.caption,
                     modifier = Modifier
                         .padding(start = 8.dp)
@@ -170,7 +170,7 @@ fun PostCard(post: Post, navController: NavHostController) {
                         )
                     }
 
-                Text(post.comments.size.toString(),
+                Text(getFormattedNumber(post.comments.size),
                     style = MaterialTheme.typography.caption,
                     modifier = Modifier
                         .padding(start = 8.dp)
@@ -223,7 +223,7 @@ fun PageIndicator(pagesCount: Int, currentPage: Int) {
     }
 }
 @Composable
-fun PostImageLoader(imgUrl: String) {
+fun ImageLoader(imgUrl: String) {
     val painter = rememberAsyncImagePainter(
         model = ImageRequest
             .Builder(LocalContext.current)
@@ -259,6 +259,11 @@ fun PostImageLoader(imgUrl: String) {
             ),
         contentScale = ContentScale.Crop
     )
+}
+fun getFormattedNumber(count: Int): String {
+    if (count < 1000) return "" + count
+    val exp = (ln(count.toDouble()) / ln(1000.0)).toInt()
+    return String.format("%.1f %c+", count / 1000.0.pow(exp.toDouble()), "KMGTPE"[exp - 1])
 }
 
 @Preview(showBackground = true)

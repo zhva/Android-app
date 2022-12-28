@@ -21,8 +21,6 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
                    PixieNavigation()
-                    /* val navController = rememberNavController()
-                    HomeScreen(navController = navController) */
                 }
             }
         }
@@ -42,7 +40,7 @@ fun PixieNavigation() {
         }
         composable("user/{id}") {
             val id = it.arguments?.getString("id") ?: "Nothing"
-            ProfileScreen(userId = id)
+            ProfileScreen(userId = id, navController)
         }
     }
 }
