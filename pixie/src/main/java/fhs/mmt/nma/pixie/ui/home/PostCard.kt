@@ -80,7 +80,7 @@ fun PostCard(post: Post, navController: NavHostController) {
                     verticalArrangement = Arrangement.SpaceEvenly) {
                     ClickableText(text = AnnotatedString(post.author.name),
                         onClick = { navController.navigate(route = "user/${post.author.id}") },
-                        style = MaterialTheme.typography.h2)
+                        style = MaterialTheme.typography.h2) // how to change color for both themes
 
                     if(!post.author.location.isNullOrEmpty()) {
                         Text(post.author.location,
@@ -235,13 +235,14 @@ fun ImageLoader(imgUrl: String) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colors.onError)) {
+                .background(MaterialTheme.colors.onError)) { // color for the Dark theme??
             Icon(
                 Icons.Filled.NoPhotography,
                 contentDescription = "No image was loaded",
                 modifier = Modifier
                     .size(24.dp)
-                    .align(Alignment.Center)
+                    .align(Alignment.Center),
+                tint = Color.Black  // Which material color to use?? Dark theme??
             )
         }
     }
