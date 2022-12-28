@@ -9,8 +9,6 @@ import androidx.compose.material.Text
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fhs.mmt.nma.pixie.data.Post
-import fhs.mmt.nma.pixie.samples.AllPosts
-import fhs.mmt.nma.pixie.samples.FakePosts
 import fhs.mmt.nma.pixie.ui.theme.PixieTheme
 import androidx.compose.material.*
 import androidx.compose.ui.Modifier
@@ -23,12 +21,18 @@ import androidx.compose.runtime.*
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.TopAppBar
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 
+@Composable
+fun HomeScreen(navController: NavHostController) {
+    val viewModel: HomeViewModel = viewModel()
+    HomeScreenView(posts = viewModel.posts.value, onPostChange = {viewModel.onPostChanged(it)}, navController = navController)
+}
 
 @Composable
-fun HomeScreen(posts: List<Post> = AllPosts, navController: NavHostController) {
+fun HomeScreenView(posts: List<Post>, onPostChange: (Post) -> Unit, navController: NavHostController) {
     Scaffold(
         topBar = { Header() },
         bottomBar = {  FooterToolbar() }) { innerPadding ->
@@ -99,7 +103,7 @@ data class LabeledIcon(val label: String, val icon: ImageVector)
 fun HomePreview() {
     PixieTheme {
         val navController = rememberNavController()
-        HomeScreen(FakePosts, navController = navController)
+        HomeScreen(navController = navController)
     }
 }
 
