@@ -32,33 +32,29 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import fhs.mmt.nma.pixie.data.Photographer
 import fhs.mmt.nma.pixie.data.Photography
+import fhs.mmt.nma.pixie.data.ProfileInfo
 import fhs.mmt.nma.pixie.samples.AllPosts
 import fhs.mmt.nma.pixie.samples.AllUsers
 import fhs.mmt.nma.pixie.samples.providers.UserSampleProvider
-import fhs.mmt.nma.pixie.ui.home.ImageLoader
-import fhs.mmt.nma.pixie.ui.home.getFormattedNumber
+import fhs.mmt.nma.pixie.ui.home.*
 import fhs.mmt.nma.pixie.ui.theme.PixieTheme
-
+@Composable
+fun ProfileScreen(navController: NavHostController) {
+    val viewModel: ProfileViewModel = viewModel()
+    ProfileScreenView(profileInfo = viewModel.userProfile.value, onProfileChange = {viewModel.onProfileChanged(it)}, navController = navController)
+}
 
 @Composable
-fun ProfileScreen(userId: String, navController: NavHostController) {
-    val user = AllUsers.find { it.id == userId.toInt() }
-    val userPosts = AllPosts.filter { it.author.id == userId.toInt() }
-    var photos = ArrayList<Photography>()
-    userPosts.forEach { post -> photos.addAll(post.photos) }
-    photos = photos.distinct() as ArrayList<Photography>
-    var comments = 0
-    userPosts.forEach { post -> comments += post.comments.size }
-    var likes = 0
-    userPosts.forEach { post -> likes += post.likes }
+fun ProfileScreenView(profileInfo: ProfileInfo, onProfileChange: (ProfileInfo) -> Unit, navController: NavHostController) {
 
     Scaffold(
-        topBar = { UserProfileHeader(user?.name ?: "Empty", navController = navController) },
+        topBar = { UserProfileHeader(profileInfo.name, navController = navController) },
         bottomBar = {}
     ) { innerPadding ->
         LazyVerticalGrid(
@@ -76,7 +72,7 @@ fun ProfileScreen(userId: String, navController: NavHostController) {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Image(
-                            painter = rememberAsyncImagePainter(user?.picture),
+                            painter = rememberAsyncImagePainter(profileInfo.picture),
                             contentDescription = null,
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
@@ -88,12 +84,12 @@ fun ProfileScreen(userId: String, navController: NavHostController) {
                                     color = MaterialTheme.colors.primary
                                 )
                         )
-                        ProfileInformation(likes, "Likes")
-                        ProfileInformation(photos.size, "Photos")
-                        ProfileInformation(comments, "Comments")
+                        ProfileInformation(profileInfo.likes, "Likes")
+                        ProfileInformation(profileInfo.photos.size, "Photos")
+                        ProfileInformation(profileInfo.comments, "Comments")
                     }
                     Text(
-                        text = user?.name ?: "No Name",
+                        text = profileInfo.name,
                         style = MaterialTheme.typography.h2,
                         modifier = Modifier
                     )
@@ -103,19 +99,19 @@ fun ProfileScreen(userId: String, navController: NavHostController) {
                             .padding(vertical = 16.dp),
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
-                        InfoBlock(user?.location, "Location", Icons.Filled.LocationOn)
-                        InfoBlock(user?.instagram, "Social", Icons.Filled.PermMedia)
+                        InfoBlock(profileInfo.location, "Location", Icons.Filled.LocationOn)
+                        InfoBlock(profileInfo.instagram, "Social", Icons.Filled.PermMedia)
                     }
                     Text(
-                        text = user?.bio ?: "NoBio",
+                        text = profileInfo.bio,
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
                 }
             }
-            items(photos.size) { index ->
+            items(profileInfo.photos.size) { index ->
                 Box( modifier = Modifier
                     .size(LocalConfiguration.current.screenWidthDp.dp / 3 - 16.dp)) {
-                    ImageLoader(imgUrl = photos[index].url)
+                    ImageLoader(imgUrl = profileInfo.photos[index].url)
                 }
             }
 
@@ -200,7 +196,7 @@ fun UserProfileHeader(userName: String, navController: NavHostController) {
 fun ProfilePreview(@PreviewParameter(UserSampleProvider::class) user: Photographer) {
     PixieTheme {
         val navController = rememberNavController()
-        ProfileScreen(userId = user.id.toString(), navController)
+        ProfileScreen(navController)
     }
 }
 

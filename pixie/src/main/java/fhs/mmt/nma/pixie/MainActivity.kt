@@ -24,7 +24,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
     }
 }
 
@@ -39,8 +38,7 @@ fun PixieNavigation() {
             HomeScreen(navController = navController)
         }
         composable("user/{id}") {
-            val id = it.arguments?.getString("id") ?: "Nothing"
-            ProfileScreen(userId = id, navController)
+            ProfileScreen(navController)
         }
     }
 }

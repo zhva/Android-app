@@ -41,7 +41,9 @@ import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
 import fhs.mmt.nma.pixie.data.Post
+import fhs.mmt.nma.pixie.samples.CurrentProfileInfo
 import fhs.mmt.nma.pixie.samples.providers.PostSampleProvider
+import fhs.mmt.nma.pixie.samples.providers.ProfileInfoProvider
 import fhs.mmt.nma.pixie.ui.theme.PixieTheme
 import kotlin.math.ln
 import kotlin.math.pow
@@ -71,7 +73,10 @@ fun PostCard(post: Post, navController: NavHostController) {
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .fillMaxSize()
-                            .clickable { navController.navigate(route = "user/${post.author.id}") }
+                            .clickable {
+                                CurrentProfileInfo = ProfileInfoProvider.getProfileInfo( post.author.id)
+                                navController.navigate(route = "user/${post.author.id}")
+                            }
                     )
                 }
                 Column(modifier = Modifier
@@ -79,7 +84,10 @@ fun PostCard(post: Post, navController: NavHostController) {
                     .height(48.dp),
                     verticalArrangement = Arrangement.SpaceEvenly) {
                     ClickableText(text = AnnotatedString(post.author.name),
-                        onClick = { navController.navigate(route = "user/${post.author.id}") },
+                        onClick = {
+                            CurrentProfileInfo = ProfileInfoProvider.getProfileInfo( post.author.id)
+                            navController.navigate(route = "user/${post.author.id}")
+                        },
                         style = MaterialTheme.typography.h2) // how to change color for both themes
 
                     if(!post.author.location.isNullOrEmpty()) {
