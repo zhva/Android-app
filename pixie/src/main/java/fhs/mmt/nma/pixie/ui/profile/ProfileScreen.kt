@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CatchingPokemon
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.PermMedia
 import androidx.compose.material.icons.outlined.ArrowBack
@@ -100,7 +101,7 @@ fun ProfileScreenView(profileInfo: ProfileInfo, onProfileChange: (ProfileInfo) -
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
                         InfoBlock(profileInfo.location, "Location", Icons.Filled.LocationOn)
-                        InfoBlock(profileInfo.instagram, "Social", Icons.Filled.PermMedia)
+                        InfoBlock(profileInfo.instagram, "Social", Icons.Default.CatchingPokemon)
                     }
                     Text(
                         text = profileInfo.bio,
