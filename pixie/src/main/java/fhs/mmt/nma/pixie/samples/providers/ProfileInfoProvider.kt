@@ -12,12 +12,10 @@ class ProfileInfoProvider {
             val user = AllUsers.find { it.id == userId }
             if (user != null) {
                 profileInfo.name = user.name
-            }
-            if (user != null) {
                 profileInfo.picture = user.picture
-            }
-            if (user != null) {
                 profileInfo.bio = user.bio
+                profileInfo.location = user.location
+                profileInfo.instagram = user.instagram
             }
 
             val userPosts = AllPosts.filter { it.author.id == userId }
